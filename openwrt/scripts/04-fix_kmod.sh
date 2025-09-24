@@ -2,6 +2,9 @@
 
 # Fix build for 6.12
 
+### BROKEN
+sed -i 's/^\([[:space:]]*DEPENDS:=.*\)$/\1 @BROKEN/' package/kernel/rtl8812au-ct/Makefile
+
 # cryptodev-linux
 mkdir -p package/kernel/cryptodev-linux/patches
 curl -s $mirror/openwrt/patch/packages-patches/cryptodev-linux/6.12/0005-Fix-cryptodev_verbosity-sysctl-for-Linux-6.11-rc1.patch > package/kernel/cryptodev-linux/patches/0005-Fix-cryptodev_verbosity-sysctl-for-Linux-6.11-rc1.patch
@@ -62,12 +65,6 @@ popd
 
 # routing - batman-adv fix build with linux-6.12
 curl -s $mirror/openwrt/patch/packages-patches/batman-adv/901-fix-linux-6.12rc2-builds.patch > feeds/routing/batman-adv/patches/901-fix-linux-6.12rc2-builds.patch
-
-# bcm53xx
-if [ "$platform" = "bcm53xx" ]; then
-    # libpfring
-    sed -i '/CONFIGURE_VARS +=/iEXTRA_CFLAGS += -Wno-int-conversion\n' feeds/packages/libs/libpfring/Makefile
-fi
 
 # clang
 if [ "$KERNEL_CLANG_LTO" = "y" ]; then
